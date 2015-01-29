@@ -9,19 +9,19 @@ import dateutil.parser
 
 root_url = 'https://github.com/search?type=Repositories&utf8=%E2%9C%93'
 
-# lang = '&l=' + 'python'
 # query_string = '&q=' + 'python'
-
-lang = '&l=' + input("Language: ")
-
-if lang == '&l=':
-    lang = ''
+# lang = '&l=' + 'python'
 
 query_string = '&q=' + input("Search: ")
 
 while query_string == '&q=':
     print ("Search string cannot be empty!")
     query_string = '&q=' + input("Search: ")
+    
+lang = '&l=' + input("Language: ")
+
+if lang == '&l=':
+    lang = ''
 
 pages = int(input("How many pages to parse: "))
 
