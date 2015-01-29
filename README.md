@@ -1,5 +1,5 @@
 # OctoSquatter
-Looks for abandoned projects on GitHub
+Looks for abandoned projects on GitHub (i.e. projects that were last updated over a year ago)
 
 Usage:
 
