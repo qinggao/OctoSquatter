@@ -17,48 +17,29 @@ main_page_head = '''
         body {
             padding-top: 80px;
         }
-        #trailer .modal-dialog {
-            margin-top: 200px;
-            width: 640px;
-            height: 480px;
-        }
         .hanging-close {
             position: absolute;
             top: -12px;
             right: -12px;
             z-index: 9001;
         }
-        #trailer-video {
-            width: 100%;
-            height: 100%;
-        }
-        .movie-tile {
+        .project-tile {
             margin-bottom: 20px;
             padding-top: 20px;
         }
-        .movie-tile:hover {
+        .project-tile:hover {
             background-color: #EEE;
             cursor: pointer;
         }
         .scale-media {
             padding-bottom: 56.25%;
             position: relative;
-        }
-        .scale-media iframe {
-            border: none;
-            height: 100%;
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: 0;
-            background-color: white;
-        }
     </style>
     <script type="text/javascript" charset="utf-8">
         
-        // Animate in the movies when the page loads
+        // Animate in the projects when the page loads
         $(document).ready(function () {
-          $('.movie-tile').hide().first().show("fast", function showNext() {
+          $('.project-tile').hide().first().show("fast", function showNext() {
             $(this).next("div").show("fast", showNext);
           });
         });
@@ -88,10 +69,10 @@ main_page_content = '''
 </html>
 '''
 
-# A single movie entry html template
+# A single project entry html template
 tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{project_title}" data-toggle="modal" data-target="#trailer">
-    <a href={project_url}><h2>{project_title}</h2></a>
+<div class="col-md-6 col-lg-4 project-tile text-center" title="{project_txt}">
+    <a href={project_url}><h2>{project_path}</h2></a>
     <p>{project_description}</p>
     <p>{project_last_update}</p>
 </div>
@@ -103,8 +84,9 @@ def create_tiles_content(repos):
     for repo in repos:
         # Append the tile for the projects with its content filled in
         content += tile_content.format(
-            project_title = repo.title,
+            project_path = repo.path,
             project_description = repo.description,
+            project_txt = repo.txt,
             project_last_update = repo.last_update,
             project_url = repo.url
         )
@@ -114,7 +96,7 @@ def display_page(repos):
   # Create or overwrite the output file
   output_file = open('results.html', 'w')
 
-  # Replace the placeholder for the movie tiles with the actual dynamically generated content
+  # Replace the placeholder for the project tiles with the actual dynamically generated content
   rendered_content = main_page_content.format(project_tiles=create_tiles_content(repos))
 
   # Output the file

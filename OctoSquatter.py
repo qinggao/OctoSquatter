@@ -39,12 +39,18 @@ def get_repos(page):
     if len(soup) > 0:
         global repo_list
         for x in soup:
-            project_title = x.select('h3.repo-list-name')[0].a['href']
+            project_path = x.select('h3.repo-list-name')[0].a['href']
             project_description = x.select('p.repo-list-description')
             last_update = datetime.datetime.strptime(x.time['datetime'], "%Y-%m-%dT%H:%M:%SZ")
 
             if project_description != []:
                 project_description = project_description[0].get_text().strip()
+            else:
+                project_description = "(Description not available)"
+                
+            project_description_txt = project_description
+            if len(project_description) > 55:
+                project_description = project_description[0:51] + "..."
 
             # convert time from UTC to Unix time format
             last_update_time_unix = calendar.timegm(datetime.datetime.strptime(x.time['datetime'], "%Y-%m-%dT%H:%M:%SZ").timetuple())
@@ -52,7 +58,7 @@ def get_repos(page):
 
             # check if last updated over 52 weeks ago
             if last_update_time_unix < time_diff:
-                repo_list.append(repos.proj(project_title, project_description, last_update))
+                repo_list.append(repos.proj(project_path, project_description, project_description_txt, last_update))
     else:
         return 404
 
