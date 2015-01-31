@@ -1,18 +1,17 @@
-import requests
-import bs4
+import requests, bs4
+import repos, generator
 
-import datetime
-import time
-import calendar
+import time, datetime, calendar
 import dateutil.parser
-import sys
 
-import repos
-import generator
+import sys
 
 # the basic url for GitHub search
 root_url = 'https://github.com/search?type=Repositories&utf8=%E2%9C%93'
 
+if sys.argv[1] in ("-h", "--help") :
+    print ("Usage: OctoSquatter.py <keyword> <language> <pages>")
+    quit()
 
 def get_param():
     query_string = '&q=' + input("Search: ")
