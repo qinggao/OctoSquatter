@@ -72,9 +72,9 @@ main_page_content = '''
 # A single project entry html template
 tile_content = '''
 <div class="col-md-6 col-lg-4 project-tile text-center" title="{project_txt}">
-    <a href={project_url}><h2>{project_path}</h2></a>
+    <a href={project_url}><h3>{project_path}</h3></a>
     <p>{project_description}</p>
-    <p>{project_last_update}</p>
+    <p>Last update: {project_last_update}</p>
 </div>
 '''
 

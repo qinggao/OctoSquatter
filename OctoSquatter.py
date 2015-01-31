@@ -5,6 +5,7 @@ import datetime
 import time
 import calendar
 import dateutil.parser
+import sys
 
 import repos
 import generator
@@ -12,18 +13,36 @@ import generator
 # the basic url for GitHub search
 root_url = 'https://github.com/search?type=Repositories&utf8=%E2%9C%93'
 
-query_string = '&q=' + input("Search: ")
 
-while query_string == '&q=':
-    print ("Search string cannot be empty!")
+def get_param():
     query_string = '&q=' + input("Search: ")
 
-lang = '&l=' + input("Language: ")
+    while query_string == '&q=':
+        print ("Search string cannot be empty!")
+        query_string = '&q=' + input("Search: ")
 
-if lang == '&l=':
-    lang = ''
+    lang = '&l=' + input("Language: ")
 
-pages = int(input("How many pages to parse: "))
+    if lang == '&l=':
+        lang = ''
+
+    while True:
+        try:
+            pages = int(input("How many pages to parse: "))
+        except ValueError:
+            print ("Please enter a valid integer.")
+
+if len(sys.argv) == 4:
+    try:
+        query_string = '&q=' + sys.argv[1]
+        lang = '&l=' + sys.argv[2]
+        pages = int(sys.argv[3])
+    except ValueError:
+        print ("Invalid arguments.")
+        get_param()
+
+else:
+    get_param()
 
 repo_list = []
 
@@ -50,7 +69,7 @@ def get_repos(page):
                 
             project_description_txt = project_description
             if len(project_description) > 55:
-                project_description = project_description[0:51] + "..."
+                project_description = project_description[0:47] + "..."
 
             # convert time from UTC to Unix time format
             last_update_time_unix = calendar.timegm(datetime.datetime.strptime(x.time['datetime'], "%Y-%m-%dT%H:%M:%SZ").timetuple())
